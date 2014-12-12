@@ -14,7 +14,7 @@ public class TopoSortFunc
 		String data;
 		String info = "";
 		String[] splitInfo;
-		int i;
+		int[][] graph;
 		try
 		{
 			FileInputStream fis = new FileInputStream(inputFilePath);
@@ -23,12 +23,7 @@ public class TopoSortFunc
 			
 			while((data = br.readLine()) != null)
 			{
-				splitInfo = data.split(" ");
-				for(int j = 0; j < splitInfo.length; j++)
-				{
-					
-				}
-				//info += data + ",";//insert , line by line later to split out
+				info += data + ",";//insert , line by line later to split out
 				numOfVertex++;
 			}
 		}
@@ -41,18 +36,31 @@ public class TopoSortFunc
 	}
 	public int[][] buildGraph(String[] graphInfo)
 	{
-		int[][] graph;
+		int[][] graph = new int[numOfVertex][numOfVertex];
+		for(int i = 0; i< numOfVertex; i++)
+		{
+			for(int j = 0; j < numOfVertex; j++)
+			{
+				graph[i][j] = 0;
+			}
+		}
 		
-		
-		
-		
-		
-		
+		for(int i = 0; i < numOfVertex-1; i++)
+		{
+			String[] strGraph = graphInfo[i].split(" ");
+			int leng = strGraph.length;
+			
+			for(int k = 1; k < leng; k++)
+			{
+				graph[Integer.parseInt(strGraph[0])][Integer.parseInt(strGraph[k])] = 1;
+				System.out.println("k=  " + k +"i =  " + i + "graph =" + graph[Integer.parseInt(strGraph[0])][Integer.parseInt(strGraph[k])] );
+			}
+		}
 		return graph;
 	}
-	public void topoSort()
+	public void topoSort(String filePath)
 	{
-		int [][] graph = buildGraph();
+		int [][] graph = buildGraph(readInput(filePath));
 		int [] result = new int[numOfVertex];
 		int count = 0;
 		int j = 0;
@@ -79,7 +87,7 @@ public class TopoSortFunc
 				continue;
 			}//if
 			int total = 0;
-			for(int i = 0; i<numOfVertex;i++)
+			for(int i = 0; i < numOfVertex ;i++)
 			{
 				if(graph[i][j] == 1)
 				{
@@ -88,8 +96,12 @@ public class TopoSortFunc
 			}
 			if(total == 0)
 			{
-				System.out.println(j+1);
+				System.out.println("j+1 = " + j+1);
 				result[count++] = j;
+				for(int i = 0; i < result.length; i++)
+				{
+					System.out.println(result[i]);
+				}
 				//make a line zero
 				for(int k = 0; k < numOfVertex; k++)
 				{

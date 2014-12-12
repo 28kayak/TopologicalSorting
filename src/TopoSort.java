@@ -5,8 +5,8 @@ public class TopoSort
 	{
 		TopoSortFunc topo = new TopoSortFunc();
 		String filePath = "/Users/kaya/Documents/LunaWorkspace/TopologicalSort/input.txt";
-		
-		String[] ginfo = topo.readInput(filePath);
+		topo.topoSort(filePath);
+	
 		
 		
 	}
